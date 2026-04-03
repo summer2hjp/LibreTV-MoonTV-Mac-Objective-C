@@ -28,6 +28,7 @@ typedef enum : NSUInteger {
 } EditType;
 
 #define ChromeUserAgent @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+#define IOSSafariUserAgent @"Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1"
 
 @interface HLHomeViewController()<WKNavigationDelegate, WKUIDelegate, NSCollectionViewDataSource, NSCollectionViewDelegate, WKScriptMessageHandler>{
     BOOL isLoading;
@@ -700,6 +701,18 @@ typedef enum : NSUInteger {
     self.loadingTipsLabel.hidden = NO;
     NSURL *url = [NSURL URLWithString:urlString];
     if (!url) return;
+
+    // 根据URL动态设置User-Agent
+    if ([urlString containsString:@"dandantu"]) {
+        // 包含dandantu的网址使用iOS Safari UA
+        self.webView.customUserAgent = IOSSafariUserAgent;
+        NSLog(@"使用iOS Safari User-Agent: %@", IOSSafariUserAgent);
+    } else {
+        // 其他网址使用原有的Chrome UA
+        self.webView.customUserAgent = @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+        NSLog(@"使用Chrome User-Agent");
+    }
+
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
 

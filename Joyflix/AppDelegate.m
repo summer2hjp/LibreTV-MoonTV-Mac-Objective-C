@@ -98,7 +98,7 @@
 }
 
 - (void)checkForUpdatesWithURL:(NSString *)urlString retryLevel:(NSInteger)retryLevel isManualCheck:(BOOL)isManualCheck {
-    NSString *currentVersion = @"1.5.0";
+    NSString *currentVersion = @"1.5.1";
     NSURL *url = [NSURL URLWithString:urlString];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
